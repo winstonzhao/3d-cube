@@ -1,11 +1,14 @@
 import { Component, h, State } from "@stencil/core";
 
 @Component({
-  tag: "app-home",
-  styleUrl: "app-home.css",
+  tag: "app-renderer",
+  styleUrl: "app-renderer.css",
   shadow: false
 })
 export class AppHome {
+  VEL_UNIT = 0.005;
+  MAX_VEL = 0.01;
+
   canvas: HTMLCanvasElement;
 
   @State()
@@ -44,8 +47,6 @@ export class AppHome {
 
   projectedCubePoints: number[][] = [[], [], [], [], [], [], [], []];
 
-  deg = 0.005;
-
   velX = 0;
   velY = 0;
 
@@ -55,22 +56,7 @@ export class AppHome {
     this.projectedCubePoints.forEach(point =>
       console.log(this.pointToCoord(point))
     );
-    window.onkeydown = ev => {
-      switch (ev.key) {
-        case "ArrowDown":
-          this.velX += this.deg;
-          break;
-        case "ArrowUp":
-          this.velX -= this.deg;
-          break;
-        case "ArrowLeft":
-          this.velY += this.deg;
-          break;
-        case "ArrowRight":
-          this.velY -= this.deg;
-          break;
-      }
-    };
+    window.onkeydown = ev => this.onKeyPress(ev.key);
   }
 
   componentDidLoad() {
@@ -78,6 +64,30 @@ export class AppHome {
       this.fetchViewportDimensions();
       this.draw();
     }, 3);
+  }
+
+  onKeyPress(key: string) {
+    switch (key) {
+      case "ArrowDown":
+        this.velX += this.VEL_UNIT;
+        break;
+      case "ArrowUp":
+        this.velX -= this.VEL_UNIT;
+        break;
+      case "ArrowLeft":
+        this.velY += this.VEL_UNIT;
+        break;
+      case "ArrowRight":
+        this.velY -= this.VEL_UNIT;
+        break;
+    }
+
+    if (Math.abs(this.velX) > this.MAX_VEL) {
+      this.velX = Math.sign(this.velX) * this.MAX_VEL;
+    }
+    if (Math.abs(this.velY) > this.MAX_VEL) {
+      this.velY = Math.sign(this.velY) * this.MAX_VEL;
+    }
   }
 
   baseToProjected() {
@@ -166,7 +176,7 @@ export class AppHome {
 
   render() {
     return (
-      <div class="app-home">
+      <div>
         <canvas
           ref={el => (this.canvas = el)}
           width={this.windowWidth}

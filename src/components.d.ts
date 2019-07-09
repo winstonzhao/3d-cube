@@ -9,17 +9,17 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface AppHome {}
+  interface AppRenderer {}
   interface AppRoot {}
 }
 
 declare global {
 
 
-  interface HTMLAppHomeElement extends Components.AppHome, HTMLStencilElement {}
-  var HTMLAppHomeElement: {
-    prototype: HTMLAppHomeElement;
-    new (): HTMLAppHomeElement;
+  interface HTMLAppRendererElement extends Components.AppRenderer, HTMLStencilElement {}
+  var HTMLAppRendererElement: {
+    prototype: HTMLAppRendererElement;
+    new (): HTMLAppRendererElement;
   };
 
   interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {}
@@ -28,17 +28,17 @@ declare global {
     new (): HTMLAppRootElement;
   };
   interface HTMLElementTagNameMap {
-    'app-home': HTMLAppHomeElement;
+    'app-renderer': HTMLAppRendererElement;
     'app-root': HTMLAppRootElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface AppHome extends JSXBase.HTMLAttributes<HTMLAppHomeElement> {}
+  interface AppRenderer extends JSXBase.HTMLAttributes<HTMLAppRendererElement> {}
   interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
 
   interface IntrinsicElements {
-    'app-home': AppHome;
+    'app-renderer': AppRenderer;
     'app-root': AppRoot;
   }
 }
